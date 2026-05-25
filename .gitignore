@@ -1,0 +1,45 @@
+# Build
+bin/
+obj/
+out/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.cache
+*.log
+.vs/
+
+# .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Node / frontend
+node_modules/
+frontend/web/dist/
+frontend/web/.env.local
+*.tsbuildinfo
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+
+# Secrets
+.env
+appsettings.Development.local.json
+**/secrets.json
+
+# Test
+TestResults/
+coverage/
+
+# Zip (local)
+*.zip

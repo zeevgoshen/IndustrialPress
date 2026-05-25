@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option csharp_namespace = "IndustrialPress.Contracts.Sensors";
+
+package sensors;
+
+// gRPC contract: SQL Data Service -> REST API (metadata only)
+service SensorMetadata {
+  rpc GetSensors (GetSensorsRequest) returns (GetSensorsResponse);
+  rpc GetSensor (GetSensorRequest) returns (Sensor);
+}
+
+message GetSensorsRequest {}
+
+message GetSensorsResponse {
+  repeated Sensor sensors = 1;
+}
+
+message GetSensorRequest {
+  int32 id = 1;
+}
+
+message Sensor {
+  int32 id = 1;
+  string name = 2;
+  string location = 3;
+  string type = 4;
+  bool enabled = 5;
+}

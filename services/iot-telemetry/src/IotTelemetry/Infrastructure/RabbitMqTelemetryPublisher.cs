@@ -9,6 +9,7 @@ public sealed class RabbitMqTelemetryPublisher : IAsyncDisposable
 {
     private readonly ILogger<RabbitMqTelemetryPublisher> _logger;
     private readonly string _host;
+    private readonly int _port;
     private readonly string _user;
     private readonly string _password;
     private readonly string _exchange;
@@ -20,6 +21,7 @@ public sealed class RabbitMqTelemetryPublisher : IAsyncDisposable
     {
         _logger = logger;
         _host = configuration["RabbitMQ:Host"] ?? "localhost";
+        _port = configuration.GetValue("RabbitMQ:Port", 5672);
         _user = configuration["RabbitMQ:User"] ?? "industrial";
         _password = configuration["RabbitMQ:Password"] ?? "industrial";
         _exchange = configuration["RabbitMQ:Exchange"] ?? "telemetry.events";
@@ -82,6 +84,7 @@ public sealed class RabbitMqTelemetryPublisher : IAsyncDisposable
         var factory = new ConnectionFactory
         {
             HostName = _host,
+            Port = _port,
             UserName = _user,
             Password = _password
         };

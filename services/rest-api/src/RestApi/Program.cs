@@ -43,7 +43,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     return ConnectionMultiplexer.Connect(options);
 });
 builder.Services.AddSingleton<RedisTelemetryStore>();
-builder.Services.AddSingleton<SensorMetadataGateway>();
+builder.Services.AddSingleton<ISensorMetadataGateway, SensorMetadataGateway>();
 builder.Services.AddHostedService<TelemetryRabbitMqConsumer>();
 
 var app = builder.Build();
@@ -58,3 +58,5 @@ app.MapControllers();
 app.MapHub<TelemetryHub>("/hubs/telemetry");
 
 app.Run();
+
+public partial class Program;

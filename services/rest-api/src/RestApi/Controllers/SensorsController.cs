@@ -10,7 +10,7 @@ namespace IndustrialPress.RestApi.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-public sealed class SensorsController(SensorMetadataGateway sql) : ControllerBase
+public sealed class SensorsController(ISensorMetadataGateway sql) : ControllerBase
 {
     /// <summary>List all 20 sensors (metadata).</summary>
     [HttpGet]

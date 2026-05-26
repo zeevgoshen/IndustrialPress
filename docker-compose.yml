@@ -69,6 +69,7 @@ services:
       ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__Redis: "redis:6379"
       RabbitMQ__Host: "rabbitmq"
+      RabbitMQ__Port: "5672"
       RabbitMQ__User: "industrial"
       RabbitMQ__Password: "industrial"
       Grpc__SqlData: "http://sql-data:8080"
@@ -85,6 +86,7 @@ services:
     environment:
       ConnectionStrings__Redis: "redis:6379"
       RabbitMQ__Host: "rabbitmq"
+      RabbitMQ__Port: "5672"
       RabbitMQ__User: "industrial"
       RabbitMQ__Password: "industrial"
 

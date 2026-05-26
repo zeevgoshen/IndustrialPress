@@ -5,6 +5,7 @@ using GrpcSensorClient = IndustrialPress.Contracts.Sensors.SensorMetadata.Sensor
 namespace IndustrialPress.RestApi.Services;
 
 public sealed class SensorMetadataGateway(IConfiguration configuration, ILogger<SensorMetadataGateway> logger)
+    : ISensorMetadataGateway
 {
     private readonly string _address = configuration["Grpc:SqlData"] ?? "http://localhost:5102";
 

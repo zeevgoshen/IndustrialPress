@@ -12,6 +12,7 @@ public sealed class IndustrialDbContext(DbContextOptions<IndustrialDbContext> op
         {
             e.ToTable("Sensors");
             e.HasKey(x => x.Id);
+            e.Property(x => x.Id).ValueGeneratedNever();
             e.Property(x => x.Name).HasMaxLength(64).IsRequired();
             e.Property(x => x.Location).HasMaxLength(128).IsRequired();
             e.Property(x => x.Type).HasMaxLength(32).IsRequired();

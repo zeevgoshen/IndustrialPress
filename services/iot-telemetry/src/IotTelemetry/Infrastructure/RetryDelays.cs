@@ -1,6 +1,6 @@
 namespace IndustrialPress.IotTelemetry.Infrastructure;
 
-internal static class RetryDelays
+public static class RetryDelays
 {
     public static readonly int[] IoTPublishBackoffMs = [100, 250, 500];
 

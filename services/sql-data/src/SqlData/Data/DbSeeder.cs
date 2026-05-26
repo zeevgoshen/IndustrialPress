@@ -13,6 +13,7 @@ public static class DbSeeder
         {
             db.Sensors.Add(new SensorEntity
             {
+                Id = id,
                 Name = $"Sensor-{id:D2}",
                 Location = "Line-1",
                 Type = "temperature",

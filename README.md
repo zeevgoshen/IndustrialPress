@@ -52,6 +52,12 @@ dotnet build IndustrialPress.sln
 dotnet test IndustrialPress.sln
 ```
 
+Integration tests use **Testcontainers** (Docker must be running).
+
+```powershell
+dotnet test services\rest-api\tests\RestApi.IntegrationTests\RestApi.IntegrationTests.csproj
+```
+
 ## Phase status
 
 | Phase | Status |
@@ -62,7 +68,8 @@ dotnet test IndustrialPress.sln
 | 3 | IoT → Redis + RabbitMQ |
 | 4–5 | REST API consumer + SignalR |
 | 6 | React 3 pages + SignalR |
-| 7+ | Integration tests, CI hardening |
+| 7 | Unit + integration tests (20-sensor pipeline) |
+| 8+ | CI hardening, README architecture final |
 
 ## AI prompts
 

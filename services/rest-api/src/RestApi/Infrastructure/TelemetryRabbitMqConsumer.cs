@@ -44,13 +44,14 @@ public sealed class TelemetryRabbitMqConsumer : BackgroundService
     private async Task ConnectAndConsumeAsync(CancellationToken cancellationToken)
     {
         var host = _configuration["RabbitMQ:Host"] ?? "localhost";
+        var port = _configuration.GetValue("RabbitMQ:Port", 5672);
         var user = _configuration["RabbitMQ:User"] ?? "industrial";
         var password = _configuration["RabbitMQ:Password"] ?? "industrial";
         var exchange = _configuration["RabbitMQ:Exchange"] ?? "telemetry.events";
         var queue = _configuration["RabbitMQ:Queue"] ?? "telemetry.sensor-updates";
         var routingKey = _configuration["RabbitMQ:RoutingKey"] ?? "sensor.updated";
 
-        var factory = new ConnectionFactory { HostName = host, UserName = user, Password = password };
+        var factory = new ConnectionFactory { HostName = host, Port = port, UserName = user, Password = password };
         _connection = await factory.CreateConnectionAsync(cancellationToken);
         _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
 

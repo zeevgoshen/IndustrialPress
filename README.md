@@ -1,79 +1,69 @@
-# IndustrialPress — Real-Time Industrial Telemetry (Phase 0)
+# IndustrialPress — Real-Time Industrial Telemetry
 
-Phase 0 repository skeleton for the industrial digital press home assignment.  
-**Architecture, retries, scaling, and CQRS-lite** are documented in [`docs/architecture.md`](docs/architecture.md).
+## Quick start (Docker — full stack)
 
-## Prerequisites
-
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) with **ASP.NET and web development** and **.NET desktop development** workloads
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Node.js 20 LTS](https://nodejs.org/) (for React UI)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for full stack via compose)
-
-## Open in Visual Studio 2022
-
-1. Clone or extract this repository.
-2. Open `IndustrialPress.sln`.
-3. Set multiple startup projects: **RestApi**, **SqlData**, **IotTelemetry** (right-click solution → *Set Startup Projects* → *Multiple*).
-4. See [`docs/GETTING-STARTED-VS2022.md`](docs/GETTING-STARTED-VS2022.md) for ports and debugging.
-
-## Solution structure
-
-```
-IndustrialPress.sln
-├── contracts/Grpc.Contracts/          # Shared gRPC proto
-├── services/rest-api/                 # REST + SignalR hub (Phase 1+)
-├── services/sql-data/                 # EF + SQL + gRPC server
-├── services/iot-telemetry/            # 20 sensors → Redis + RabbitMQ
-├── frontend/web/                      # React + TypeScript (3 pages)
-├── docs/architecture.md               # Diagrams, retries, scaling
-├── prompts/                           # AI prompt log (mandatory)
-└── docker-compose.yml                 # Full stack (Phase 1+)
+```powershell
+cd C:\Users\zeev\IndustrialPress
+docker compose up --build
 ```
 
-## Build (CLI)
+| Service | URL |
+|---------|-----|
+| UI | http://localhost:5173 |
+| REST API / Swagger | http://localhost:5101/swagger |
+| RabbitMQ management | http://localhost:15672 (industrial / industrial) |
+| SQL Server | localhost:1433 (sa / Your_password123) |
 
-```bash
-dotnet restore IndustrialPress.sln
-dotnet build IndustrialPress.sln
-dotnet test IndustrialPress.sln
+## Local development (Visual Studio 2022)
+
+1. Start infrastructure only:
+
+```powershell
+docker compose up -d sqlserver redis rabbitmq
 ```
 
-## Frontend (Phase 1+)
+2. Set **multiple startup projects**: RestApi, SqlData, IotTelemetry.
 
-```bash
-cd frontend/web
+3. Frontend:
+
+```powershell
+cd frontend\web
 npm install
 npm run dev
 ```
 
-## Docker (Phase 1+)
+Open http://localhost:5173 — live dashboard uses **SignalR** (no telemetry polling).
 
-```bash
-docker compose up --build
+## Architecture
+
+See [`docs/architecture.md`](docs/architecture.md) — diagrams, retry rules R1–R7, CQRS-lite, scaling.
+
+## Data flow (implemented)
+
+```text
+IoT → Redis → RabbitMQ → REST API → SignalR → UI
+REST API → gRPC → SQL Data → SQL (metadata)
 ```
 
-## Phase 0 status
+## Build & test
 
-| Item | Status |
-|------|--------|
-| Solution + projects | ✅ Skeleton builds |
-| Architecture doc | ✅ `docs/architecture.md` |
-| IoT / Redis / RMQ / SignalR | ⏳ Phase 1+ |
-| Integration tests (20 sensors) | ⏳ Phase 7 |
-| CI pipeline | ⏳ Skeleton in `.github/workflows/ci.yml` |
-| `/prompts` documentation | ⏳ Add as you use AI |
-
-## GitHub
-
-```bash
-git init
-git add .
-git commit -m "Phase 0: solution skeleton and architecture"
-git remote add origin https://github.com/YOUR_USER/IndustrialPress.git
-git push -u origin main
+```powershell
+dotnet build IndustrialPress.sln
+dotnet test IndustrialPress.sln
 ```
 
-## License
+## Phase status
 
-Private assignment repository — add license as required by your institution.
+| Phase | Status |
+|-------|--------|
+| 0 | Solution + architecture |
+| 1 | docker-compose + health |
+| 2 | SQL Data + EF + 20 sensors + gRPC |
+| 3 | IoT → Redis + RabbitMQ |
+| 4–5 | REST API consumer + SignalR |
+| 6 | React 3 pages + SignalR |
+| 7+ | Integration tests, CI hardening |
+
+## AI prompts
+
+Log under [`prompts/`](prompts/) per assignment requirements.

@@ -1,5 +1,4 @@
-# Phase 1+: docker compose up --build
-# Phase 0: skeleton — infra + service placeholders
+# docker compose up --build
 
 services:
   sqlserver:
@@ -14,7 +13,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 30s
+      start_period: 40s
 
   redis:
     image: redis:7-alpine
@@ -70,6 +69,8 @@ services:
       ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__Redis: "redis:6379"
       RabbitMQ__Host: "rabbitmq"
+      RabbitMQ__User: "industrial"
+      RabbitMQ__Password: "industrial"
       Grpc__SqlData: "http://sql-data:8080"
 
   iot-telemetry:
@@ -84,11 +85,15 @@ services:
     environment:
       ConnectionStrings__Redis: "redis:6379"
       RabbitMQ__Host: "rabbitmq"
+      RabbitMQ__User: "industrial"
+      RabbitMQ__Password: "industrial"
 
   frontend:
     build:
       context: ./frontend/web
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:5101"
     ports:
       - "5173:80"
     depends_on:

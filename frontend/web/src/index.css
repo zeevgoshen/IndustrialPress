@@ -11,3 +11,16 @@ nav {
 nav a {
   color: #0066cc;
 }
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+tr.stale {
+  background: #fff3cd;
+}

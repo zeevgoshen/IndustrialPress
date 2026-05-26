@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore services/rest-api/src/RestApi/RestApi.csproj
+RUN rm -rf /root/.nuget/packages && dotnet restore services/rest-api/src/RestApi/RestApi.csproj --disable-parallel
 RUN dotnet publish services/rest-api/src/RestApi/RestApi.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final

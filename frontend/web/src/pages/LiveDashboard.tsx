@@ -6,13 +6,14 @@ function isStale(timestamp: string): boolean {
 }
 
 export default function LiveDashboard() {
-  const { connected, readings } = useTelemetryHub();
+  const { connected, error, readings } = useTelemetryHub();
   const list = Object.values(readings).sort((a, b) => a.sensorId - b.sensorId);
 
   return (
     <section>
       <h1>Live Dashboard</h1>
       <p>SignalR: {connected ? "connected" : "disconnected"}</p>
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
       <table>
         <thead>
           <tr>
@@ -24,9 +25,16 @@ export default function LiveDashboard() {
           </tr>
         </thead>
         <tbody>
-          {list.length === 0 && (
+          {connected && list.length === 0 && (
             <tr>
-              <td colSpan={5}>Waiting for telemetry…</td>
+              <td colSpan={5}>
+                Connected — waiting for telemetry. Ensure IoT Telemetry service is running.
+              </td>
+            </tr>
+          )}
+          {!connected && list.length === 0 && (
+            <tr>
+              <td colSpan={5}>Not connected to telemetry hub.</td>
             </tr>
           )}
           {list.map((r: TelemetryPayload) => (

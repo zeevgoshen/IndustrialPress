@@ -35,3 +35,9 @@ Example: `prompts/2026-05-24-docker-compose-skeleton.md`
 - Document prompts **as you go** — do not batch at the end.
 - Include failed attempts if they shaped the final design.
 - Do not paste secrets or credentials.
+
+
+
+
+
+

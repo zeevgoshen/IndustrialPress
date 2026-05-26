@@ -7,7 +7,7 @@ using Xunit;
 
 namespace IndustrialPress.RestApi.IntegrationTests.Infrastructure;
 
-public sealed class IntegrationTestFixture : WebApplicationFactory<Program>, IAsyncLifetime, IAsyncDisposable
+public sealed class IntegrationTestFixture : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly RedisContainer _redis = new RedisBuilder().Build();
     private readonly RabbitMqContainer _rabbit = new RabbitMqBuilder()
@@ -28,7 +28,7 @@ public sealed class IntegrationTestFixture : WebApplicationFactory<Program>, IAs
         RabbitMqPort = _rabbit.GetMappedPublicPort(5672);
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
         await _redis.DisposeAsync();
         await _rabbit.DisposeAsync();
@@ -49,10 +49,5 @@ public sealed class IntegrationTestFixture : WebApplicationFactory<Program>, IAs
                 ["Grpc:SqlData"] = "http://localhost:1"
             });
         });
-    }
-
-    Task IAsyncLifetime.DisposeAsync()
-    {
-        throw new NotImplementedException();
     }
 }
